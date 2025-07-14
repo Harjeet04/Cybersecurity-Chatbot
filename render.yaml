@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: cybersecurity-chatbot
+    env: python
+    buildCommand: ""
+    startCommand: python chatapp.py
+    plan: free
