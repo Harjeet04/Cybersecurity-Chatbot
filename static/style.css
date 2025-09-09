@@ -1,38 +1,98 @@
-/* Base styles */
+/* ---------- Base Styles ---------- */
 body {
     font-family: Arial, sans-serif;
     background-color: #eef3f7;
     margin: 0;
     padding: 0;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Floating Dark Mode Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Chat Container */
 .chat-container {
     width: 60%;
-    margin: 50px auto;
+    max-width: 800px;
+    margin: 60px auto;
     background: white;
     padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
     transition: background 0.3s, color 0.3s;
 }
 
 h2 {
     text-align: center;
     color: #2a4d69;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
     transition: color 0.3s;
 }
 
+/* Chat Box */
 #chat-box {
+    flex-grow: 1;
     height: 400px;
     overflow-y: auto;
     padding: 10px;
     background: #f9f9f9;
     border: 1px solid #ccc;
     margin-bottom: 10px;
+    border-radius: 10px;
     transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
+/* Chat Messages */
+.user-msg, .bot-msg {
+    max-width: 70%;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 12px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+/* User Messages (Right-aligned) */
+.user-msg {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+}
+
+/* Bot Messages (Left-aligned) */
+.bot-msg {
+    background-color: #eaf7ea;
+    color: #1e4620;
+    margin-right: auto;
+    border-bottom-left-radius: 0;
+}
+
+/* Input Area */
 .input-area {
     display: flex;
     gap: 10px;
@@ -44,7 +104,13 @@ h2 {
     font-size: 16px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    transition: background 0.3s, color 0.3s, border-color 0.3s;
+    outline: none;
+    transition: background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+#user-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
 }
 
 button {
@@ -62,16 +128,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-.user-msg { 
-    color: #007bff; 
-    margin: 5px 0; 
-}
-.bot-msg  { 
-    color: #28a745; 
-    margin: 5px 0; 
-}
-
-/* ---------------- Dark Mode ---------------- */
+/* ---------- Dark Mode ---------- */
 body.dark-mode {
     background-color: #1e1e1e;
     color: #e4e4e4;
@@ -80,7 +137,7 @@ body.dark-mode {
 body.dark-mode .chat-container {
     background: #2c2c2c;
     color: #e4e4e4;
-    box-shadow: 0 0 12px rgba(255,255,255,0.1);
+    box-shadow: 0 4px 15px rgba(255,255,255,0.05);
 }
 
 body.dark-mode h2 {
@@ -107,10 +164,13 @@ body.dark-mode button:hover {
     background-color: #357ab8;
 }
 
+/* Dark Mode Messages */
 body.dark-mode .user-msg {
-    color: #4da6ff;
+    background-color: #4da6ff;
+    color: #fff;
 }
 
 body.dark-mode .bot-msg {
+    background-color: #333;
     color: #6fe96f;
 }

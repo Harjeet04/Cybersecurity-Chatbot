@@ -28,32 +28,30 @@ function sendMessage() {
 document.addEventListener("DOMContentLoaded", function () {
     const chatBox = document.getElementById("chat-box");
     chatBox.innerHTML += `<div class='bot-msg'><b>Bot:</b> 👋 Hello! I'm your cybersecurity chatbot. Ask me any question related to cybersecurity.</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
 
     const input = document.getElementById("user-input");
     input.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-            sendMessage();
-        }
+        if (e.key === "Enter") sendMessage();
     });
 
-    // Dark mode toggle
-    const toggleBtn = document.getElementById("toggle-theme");
+    // Dark mode toggle (FIXED: correct ID)
+    const toggleBtn = document.getElementById("theme-toggle");
     toggleBtn.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
 
-        // Save user preference in localStorage
         if (document.body.classList.contains("dark-mode")) {
             localStorage.setItem("theme", "dark");
-            toggleBtn.textContent = "☀️ Light Mode";
+            toggleBtn.textContent = "☀️";
         } else {
             localStorage.setItem("theme", "light");
-            toggleBtn.textContent = "🌙 Dark Mode";
+            toggleBtn.textContent = "🌙";
         }
     });
 
-    // Apply saved theme on page load
+    // Apply saved theme
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-mode");
-        toggleBtn.textContent = "☀️ Light Mode";
+        toggleBtn.textContent = "☀️";
     }
 });
