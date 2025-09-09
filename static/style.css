@@ -1,8 +1,10 @@
+/* Base styles */
 body {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background-color: #eef3f7;
     margin: 0;
     padding: 0;
+    transition: background 0.3s, color 0.3s;
 }
 
 .chat-container {
@@ -12,11 +14,13 @@ body {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: background 0.3s, color 0.3s;
 }
 
 h2 {
     text-align: center;
     color: #2a4d69;
+    transition: color 0.3s;
 }
 
 #chat-box {
@@ -26,6 +30,7 @@ h2 {
     background: #f9f9f9;
     border: 1px solid #ccc;
     margin-bottom: 10px;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .input-area {
@@ -37,6 +42,9 @@ h2 {
     flex-grow: 1;
     padding: 10px;
     font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
 button {
@@ -47,7 +55,62 @@ button {
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
-.user-msg { color: #007bff; margin: 5px 0; }
-.bot-msg  { color: #28a745; margin: 5px 0; }
+button:hover {
+    background-color: #0056b3;
+}
+
+.user-msg { 
+    color: #007bff; 
+    margin: 5px 0; 
+}
+.bot-msg  { 
+    color: #28a745; 
+    margin: 5px 0; 
+}
+
+/* ---------------- Dark Mode ---------------- */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #e4e4e4;
+}
+
+body.dark-mode .chat-container {
+    background: #2c2c2c;
+    color: #e4e4e4;
+    box-shadow: 0 0 12px rgba(255,255,255,0.1);
+}
+
+body.dark-mode h2 {
+    color: #9dc4ff;
+}
+
+body.dark-mode #chat-box {
+    background: #1a1a1a;
+    border-color: #444;
+    color: #ddd;
+}
+
+body.dark-mode #user-input {
+    background: #2b2b2b;
+    color: #fff;
+    border-color: #555;
+}
+
+body.dark-mode button {
+    background-color: #4a90e2;
+}
+
+body.dark-mode button:hover {
+    background-color: #357ab8;
+}
+
+body.dark-mode .user-msg {
+    color: #4da6ff;
+}
+
+body.dark-mode .bot-msg {
+    color: #6fe96f;
+}
