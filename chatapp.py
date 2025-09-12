@@ -1,15 +1,18 @@
 from flask import Flask, render_template, request, jsonify, session
-import cohere
+import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
-api_key = os.getenv("COHERE_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
-    raise ValueError("No COHERE_API_KEY found in environment variables")
+    raise ValueError("No GEMINI_API_KEY found in environment variables")
 
-co = cohere.Client(api_key)
+# Configure Gemini
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key-2024")
@@ -50,40 +53,34 @@ def chat():
 
         # Get existing chat history from session
         chat_history = session.get("chat_history", [])
-        
-        # Add user message to history
         chat_history.append({"role": "USER", "message": user_input})
-        
-        # Generate response using Cohere API
-        response = co.chat(
-            model="command-r-plus",
-            preamble=system_prompt,
-            message=user_input,
-            chat_history=chat_history[:-1]  # All but the current message
+
+        # Combine system prompt + history into a single input string
+        history_text = "\n".join(
+            f"{h['role']}: {h['message']}" for h in chat_history[:-1]
         )
 
+        full_prompt = f"{system_prompt}\n\nChat History:\n{history_text}\nUSER: {user_input}\nCHATBOT:"
+
+        response = model.generate_content(full_prompt)
         answer = response.text.strip()
-        
-        # Add assistant response to history
+
         chat_history.append({"role": "CHATBOT", "message": answer})
-        
-        # Update session with new chat history (truncate if too long)
-        if len(chat_history) > 20:  # Keep last 10 exchanges
+
+        # Keep only last 20 messages in history
+        if len(chat_history) > 20:
             chat_history = chat_history[-20:]
+
         session["chat_history"] = chat_history
-        
+
         return jsonify({"reply": answer})
 
-    except cohere.CohereAPIError as e:
-        print("Cohere API Error:", str(e))
-        return jsonify({"reply": "⚠️ Error with the AI service. Please try again later."})
     except Exception as e:
-        print("Unexpected Error:", str(e))
+        print("Error:", str(e))
         return jsonify({"reply": "⚠️ An unexpected error occurred. Please try again."})
 
 @app.route("/clear", methods=["POST"])
 def clear_chat():
-    """Clear the chat history"""
     session["chat_history"] = []
     return jsonify({"status": "success"})
 
